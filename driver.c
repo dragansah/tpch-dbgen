@@ -368,6 +368,9 @@ gen_tbl (int tnum, DSS_HUGE start, DSS_HUGE count, long upd_num)
 			printf("\nSeeds for %s at rowcount %ld\n", tdefs[tnum].comment, i);
 			dump_seeds(tnum);
 		}
+		printf("%s;\n", record);
+		record[0] = '\0';
+
 	}
 	completed |= 1 << tnum;
 }
