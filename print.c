@@ -160,31 +160,31 @@ int dbg_print(int format, char *target, void *data, int len, int sep) {
 int
 pr_cust(customer_t *c, int mode)
 {
-static FILE *fp = NULL;
+/*static FILE *fp = NULL;
         
    if (fp == NULL)
-        fp = print_prep(CUST, 0);
+        fp = print_prep(CUST, 0);*/
 
-   PR_STRT(fp);
-   PR_HUGE(fp, &c->custkey);
+   //PR_STRT(fp);
+   PR_HUGE(&c->custkey);
    dbg_print_separator(record);
    if (scale <= 3000)
-   PR_VSTR(fp, c->name, C_NAME_LEN);
+   PR_VSTR(c->name, C_NAME_LEN);
    else
-   PR_VSTR(fp, c->name, C_NAME_LEN + 3);
+   PR_VSTR(c->name, C_NAME_LEN + 3);
    dbg_print_separator(record);
-   PR_VSTR(fp, c->address, c->alen);
+   PR_VSTR(c->address, c->alen);
    dbg_print_separator(record);
-   PR_HUGE(fp, &c->nation_code);
+   PR_HUGE(&c->nation_code);
    dbg_print_separator(record);
-   PR_STR(fp, c->phone, PHONE_LEN);
+   PR_STR(c->phone, PHONE_LEN);
    dbg_print_separator(record);
-   PR_MONEY(fp, &c->acctbal);
+   PR_MONEY(&c->acctbal);
    dbg_print_separator(record);
-   PR_STR(fp, c->mktsegment, C_MSEG_LEN);
+   PR_STR(c->mktsegment, C_MSEG_LEN);
    dbg_print_separator(record);
-   PR_VSTR_LAST(fp, c->comment, c->clen);
-   PR_END(fp);
+   PR_VSTR_LAST(c->comment, c->clen);
+   //PR_END(fp);
 
    return(0);
 }
@@ -195,7 +195,7 @@ static FILE *fp = NULL;
 int
 pr_order(order_t *o, int mode)
 {
-    static FILE *fp_o = NULL;
+    /*static FILE *fp_o = NULL;
     static int last_mode = 0;
         
     if (fp_o == NULL || mode != last_mode)
@@ -204,26 +204,27 @@ pr_order(order_t *o, int mode)
             fclose(fp_o);
         fp_o = print_prep(ORDER, mode);
         last_mode = mode;
-        }
-    PR_STRT(fp_o);
-    PR_HUGE(fp_o, &o->okey);
+        }*/
+    
+    //PR_STRT(fp_o);
+    PR_HUGE(&o->okey);
     dbg_print_separator(record);
-    PR_HUGE(fp_o, &o->custkey);
+    PR_HUGE(&o->custkey);
     dbg_print_separator(record);
-    PR_CHR(fp_o, &o->orderstatus);
+    PR_CHR(&o->orderstatus);
     dbg_print_separator(record);
-    PR_MONEY(fp_o, &o->totalprice);
+    PR_MONEY(&o->totalprice);
     dbg_print_separator(record);
-    PR_STR(fp_o, o->odate, DATE_LEN);
+    PR_STR(o->odate, DATE_LEN);
     dbg_print_separator(record);
-    PR_STR(fp_o, o->opriority, O_OPRIO_LEN);
+    PR_STR(o->opriority, O_OPRIO_LEN);
     dbg_print_separator(record);
-    PR_STR(fp_o, o->clerk, O_CLRK_LEN);
+    PR_STR(o->clerk, O_CLRK_LEN);
     dbg_print_separator(record);
-    PR_INT(fp_o, o->spriority);
+    PR_INT(o->spriority);
     dbg_print_separator(record);
-    PR_VSTR_LAST(fp_o, o->comment, o->clen);
-    PR_END(fp_o);
+    PR_VSTR_LAST(o->comment, o->clen);
+    //PR_END(fp_o);
 
     return(0);
 }
@@ -234,53 +235,53 @@ pr_order(order_t *o, int mode)
 int
 pr_line(order_t *o, int mode)
 {
-    static FILE *fp_l = NULL;
-    static int last_mode = 0;
+   /* static FILE *fp_l = NULL;
+    static int last_mode = 0;*/
     long      i;
         
-    if (fp_l == NULL || mode != last_mode)
+    /*if (fp_l == NULL || mode != last_mode)
         {
         if (fp_l) 
             fclose(fp_l);
         fp_l = print_prep(LINE, mode);
         last_mode = mode;
-        }
+        }*/
 
     for (i = 0; i < o->lines; i++)
         {
-        PR_STRT(fp_l);
-        PR_HUGE(fp_l, &o->l[i].okey);
+        //PR_STRT(fp_l);
+        PR_HUGE(&o->l[i].okey);
         dbg_print_separator(record);
-        PR_HUGE(fp_l, &o->l[i].partkey);
+        PR_HUGE(&o->l[i].partkey);
         dbg_print_separator(record);
-        PR_HUGE(fp_l, &o->l[i].suppkey);
+        PR_HUGE(&o->l[i].suppkey);
         dbg_print_separator(record);
-        PR_HUGE(fp_l, &o->l[i].lcnt);
+        PR_HUGE(&o->l[i].lcnt);
         dbg_print_separator(record);
-        PR_HUGE(fp_l, &o->l[i].quantity);
+        PR_HUGE(&o->l[i].quantity);
         dbg_print_separator(record);
-        PR_MONEY(fp_l, &o->l[i].eprice);
+        PR_MONEY(&o->l[i].eprice);
         dbg_print_separator(record);
-        PR_MONEY(fp_l, &o->l[i].discount);
+        PR_MONEY(&o->l[i].discount);
         dbg_print_separator(record);
-        PR_MONEY(fp_l, &o->l[i].tax);
+        PR_MONEY(&o->l[i].tax);
         dbg_print_separator(record);
-        PR_CHR(fp_l, &o->l[i].rflag[0]);
+        PR_CHR(&o->l[i].rflag[0]);
         dbg_print_separator(record);
-        PR_CHR(fp_l, &o->l[i].lstatus[0]);
+        PR_CHR(&o->l[i].lstatus[0]);
         dbg_print_separator(record);
-        PR_STR(fp_l, o->l[i].sdate, DATE_LEN);
+        PR_STR(o->l[i].sdate, DATE_LEN);
         dbg_print_separator(record);
-        PR_STR(fp_l, o->l[i].cdate, DATE_LEN);
+        PR_STR(o->l[i].cdate, DATE_LEN);
         dbg_print_separator(record);
-        PR_STR(fp_l, o->l[i].rdate, DATE_LEN);
+        PR_STR(o->l[i].rdate, DATE_LEN);
         dbg_print_separator(record);
-        PR_STR(fp_l, o->l[i].shipinstruct, L_INST_LEN);
+        PR_STR(o->l[i].shipinstruct, L_INST_LEN);
         dbg_print_separator(record);
-        PR_STR(fp_l, o->l[i].shipmode, L_SMODE_LEN);
+        PR_STR(o->l[i].shipmode, L_SMODE_LEN);
         dbg_print_separator(record);
-        PR_VSTR_LAST(fp_l, o->l[i].comment,o->l[i].clen);
-        PR_END(fp_l);
+        PR_VSTR_LAST(o->l[i].comment,o->l[i].clen);
+        //PR_END(fp_l);
         }
 
    return(0);
@@ -305,30 +306,30 @@ pr_order_line(order_t *o, int mode)
 int
 pr_part(part_t *part, int mode)
 {
-static FILE *p_fp = NULL;
+/*static FILE *p_fp = NULL;
 
     if (p_fp == NULL)
-        p_fp = print_prep(PART, 0);
+        p_fp = print_prep(PART, 0);*/
 
-   PR_STRT(p_fp);
-   PR_HUGE(p_fp, &part->partkey);
+   //PR_STRT(p_fp);
+   PR_HUGE(&part->partkey);
    dbg_print_separator(record);
-   PR_VSTR(p_fp, part->name,part->nlen);
+   PR_VSTR(part->name,part->nlen);
    dbg_print_separator(record);
-   PR_STR(p_fp, part->mfgr, P_MFG_LEN);
+   PR_STR(part->mfgr, P_MFG_LEN);
    dbg_print_separator(record);
-   PR_STR(p_fp, part->brand, P_BRND_LEN);
+   PR_STR(part->brand, P_BRND_LEN);
    dbg_print_separator(record);
-   PR_VSTR(p_fp, part->type,part->tlen);
+   PR_VSTR(part->type,part->tlen);
    dbg_print_separator(record);
-   PR_HUGE(p_fp, &part->size);
+   PR_HUGE(&part->size);
    dbg_print_separator(record);
-   PR_STR(p_fp, part->container, P_CNTR_LEN);
+   PR_STR(part->container, P_CNTR_LEN);
    dbg_print_separator(record);
-   PR_MONEY(p_fp, &part->retailprice);
+   PR_MONEY(&part->retailprice);
    dbg_print_separator(record);
-   PR_VSTR_LAST(p_fp, part->comment,part->clen);
-   PR_END(p_fp);
+   PR_VSTR_LAST(part->comment,part->clen);
+   //PR_END(p_fp);
 
    return(0);
 }
@@ -339,25 +340,25 @@ static FILE *p_fp = NULL;
 int
 pr_psupp(part_t *part, int mode)
 {
-    static FILE *ps_fp = NULL;
+   /* static FILE *ps_fp = NULL;*/
     long      i;
 
-    if (ps_fp == NULL)
-        ps_fp = print_prep(PSUPP, mode);
+    /*if (ps_fp == NULL)
+        ps_fp = print_prep(PSUPP, mode);*/
 
    for (i = 0; i < SUPP_PER_PART; i++)
       {
-      PR_STRT(ps_fp);
-      PR_HUGE(ps_fp, &part->s[i].partkey);
+      //PR_STRT(ps_fp);
+      PR_HUGE(&part->s[i].partkey);
       dbg_print_separator(record);
-      PR_HUGE(ps_fp, &part->s[i].suppkey);
+      PR_HUGE(&part->s[i].suppkey);
       dbg_print_separator(record);
-      PR_HUGE(ps_fp, &part->s[i].qty);
+      PR_HUGE(&part->s[i].qty);
       dbg_print_separator(record);
-      PR_MONEY(ps_fp, &part->s[i].scost);
+      PR_MONEY(&part->s[i].scost);
       dbg_print_separator(record);
-      PR_VSTR_LAST(ps_fp, part->s[i].comment,part->s[i].clen);
-      PR_END(ps_fp);
+      PR_VSTR_LAST(part->s[i].comment,part->s[i].clen);
+      //PR_END(ps_fp);
       }
 
    return(0);
@@ -379,26 +380,26 @@ pr_part_psupp(part_t *part, int mode)
 int
 pr_supp(supplier_t *supp, int mode)
 {
-static FILE *fp = NULL;
+/*static FILE *fp = NULL;
         
    if (fp == NULL)
-        fp = print_prep(SUPP, mode);
+        fp = print_prep(SUPP, mode);*/
 
-   PR_STRT(fp);
-   PR_HUGE(fp, &supp->suppkey);
+   //PR_STRT(fp);
+   PR_HUGE(&supp->suppkey);
    dbg_print_separator(record);
-   PR_STR(fp, supp->name, S_NAME_LEN);
+   PR_STR(supp->name, S_NAME_LEN);
    dbg_print_separator(record);
-   PR_VSTR(fp, supp->address, supp->alen);
+   PR_VSTR(supp->address, supp->alen);
    dbg_print_separator(record);
-   PR_HUGE(fp, &supp->nation_code);
+   PR_HUGE(&supp->nation_code);
    dbg_print_separator(record);
-   PR_STR(fp, supp->phone, PHONE_LEN);
+   PR_STR(supp->phone, PHONE_LEN);
    dbg_print_separator(record);
-   PR_MONEY(fp, &supp->acctbal);
+   PR_MONEY(&supp->acctbal);
    dbg_print_separator(record);
-   PR_VSTR_LAST(fp, supp->comment, supp->clen);
-   PR_END(fp);
+   PR_VSTR_LAST(supp->comment, supp->clen);
+   //PR_END(fp);
 
    return(0);
 }
@@ -406,20 +407,20 @@ static FILE *fp = NULL;
 int
 pr_nation(code_t *c, int mode)
 {
-static FILE *fp = NULL;
+/*static FILE *fp = NULL;
         
    if (fp == NULL)
-        fp = print_prep(NATION, mode);
+        fp = print_prep(NATION, mode);*/
 
-   PR_STRT(fp);
-   PR_HUGE(fp, &c->code);
+   //PR_STRT(fp);
+   PR_HUGE(&c->code);
    dbg_print_separator(record);
-   PR_STR(fp, c->text, NATION_LEN);
+   PR_STR(c->text, NATION_LEN);
    dbg_print_separator(record);
-   PR_INT(fp, c->join);
+   PR_INT(c->join);
    dbg_print_separator(record);
-   PR_VSTR_LAST(fp, c->comment, c->clen);
-   PR_END(fp);
+   PR_VSTR_LAST(c->comment, c->clen);
+   //PR_END(fp);
 
    return(0);
 }
@@ -427,18 +428,18 @@ static FILE *fp = NULL;
 int
 pr_region(code_t *c, int mode)
 {
-static FILE *fp = NULL;
+/*static FILE *fp = NULL;
         
    if (fp == NULL)
-        fp = print_prep(REGION, mode);
+        fp = print_prep(REGION, mode);*/
 
-   PR_STRT(fp);
-   PR_HUGE(fp, &c->code);
+   //PR_STRT(fp);
+   PR_HUGE(&c->code);
    dbg_print_separator(record);
-   PR_STR(fp, c->text, REGION_LEN);
+   PR_STR(c->text, REGION_LEN);
    dbg_print_separator(record);
-   PR_VSTR_LAST(fp, c->comment, c->clen);
-   PR_END(fp);
+   PR_VSTR_LAST(c->comment, c->clen);
+   //PR_END(fp);
 
    return(0);
 }
@@ -490,10 +491,11 @@ pr_drange(int tbl, DSS_HUGE min, DSS_HUGE cnt, long num)
 				rows_this_segment=1;
 			}
 		}
-		PR_STRT(dfp);
-		dbg_print_separator(dfp);
-		PR_HUGE(dfp, &new);
-		PR_END(dfp);
+		
+		//PR_STRT(dfp);
+		dbg_print_separator(record);
+		PR_HUGE(&new);
+		//PR_END(dfp);
 		start = new;
 		last = new;
 	}

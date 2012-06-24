@@ -471,16 +471,16 @@ extern tdef tdefs[];
 char record[4096];
 
 int dbg_print(int dt, char *target, void *data, int len, int eol);
-#define PR_STR(f, str, len)		dbg_print(DT_STR, record, (void *)str, len, 1)
-#define PR_VSTR(f, str, len) 	dbg_print(DT_VSTR, record, (void *)str, len, 1)
-#define PR_VSTR_LAST(f, str, len) 	dbg_print(DT_VSTR, record, (void *)str, len, 0)
-#define PR_INT(f, str) 			dbg_print(DT_INT, record, (void *)str, 0, 1)
-#define PR_HUGE(f, str) 		dbg_print(DT_HUGE, record, (void *)str, 0, 1)
-#define PR_KEY(f, str) 			dbg_print(DT_KEY, record, (void *)str, 0, -1)
-#define PR_MONEY(f, str) 		dbg_print(DT_MONEY, record, (void *)str, 0, 1)
-#define PR_CHR(f, str)	 		dbg_print(DT_CHR, record, (void *)str, 0, 1)
-#define  PR_STRT(fp)   /* any line prep for a record goes here */
-#define  PR_END(fp)    fprintf(fp, "\n")   /* finish the record here */
+#define PR_STR(str, len)		dbg_print(DT_STR, record, (void *)str, len, 1)
+#define PR_VSTR(str, len) 	dbg_print(DT_VSTR, record, (void *)str, len, 1)
+#define PR_VSTR_LAST(str, len) 	dbg_print(DT_VSTR, record, (void *)str, len, 0)
+#define PR_INT(str) 			dbg_print(DT_INT, record, (void *)str, 0, 1)
+#define PR_HUGE(str) 		dbg_print(DT_HUGE, record, (void *)str, 0, 1)
+#define PR_KEY(str) 			dbg_print(DT_KEY, record, (void *)str, 0, -1)
+#define PR_MONEY(str) 		dbg_print(DT_MONEY, record, (void *)str, 0, 1)
+#define PR_CHR(str)	 		dbg_print(DT_CHR, record, (void *)str, 0, 1)
+//#define  PR_STRT(fp)   /* any line prep for a record goes here */
+//#define  PR_END(fp)    fprintf(fp, "\n")   /* finish the record here */
 #ifdef MDY_DATE
 #define  PR_DATE(tgt, yr, mn, dy)	\
    sprintf(tgt, "%02d-%02d-19%02d", mn, dy, yr)
